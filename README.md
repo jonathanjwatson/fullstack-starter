@@ -92,3 +92,47 @@ module.exports = function (sequelize, DataTypes) {
 6. Import db into server.js
 7. Connect the database to our server, by wrapping app.listen in `db.sequelize.sync()`
 
+## Abstract Controllers
+
+1. Create a new controller for your model.
+2. Include basic boilerplate code: 
+
+```javascript
+const express = require("express");
+const router = express.Router();
+
+module.exports = router;
+```
+
+3. Setup Views routes and API routes
+4. View Routes may include:
+    * all-things
+    * single-thing
+    * edit-thing
+    * new-thing
+5. Import db into our controller and populate the page. 
+6. Getting error: `Access has been denied to resolve the property "name" because it is not an "own property" of its parent.`? 
+
+### Configure Handlebars
+
+1. Run `npm install handlebars @handlebars/allow-prototype-access`
+2. Modify your server: 
+
+```javascript
+const handlebars = require("handlebars");
+const {
+  allowInsecurePrototypeAccess,
+} = require("@handlebars/allow-prototype-access");
+```
+
+3. Modify the `app.engine`
+
+```javascript
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main",
+    handlebars: allowInsecurePrototypeAccess(handlebars),
+  })
+);
+```
