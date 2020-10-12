@@ -1,5 +1,25 @@
 <h1>All the things will go here.</h1>
-
+<div>
+    <a href="/thing/new"><button>Create new thing</button></a>
+</div>
 {{#each allThings}}
-    {{name}} - {{price}}
+<div>
+    {{name}}
+    <a href="/thing/{{id}}"><button>View</button></a>
+    <a href="/thing/{{id}}/edit"><button>Edit</button></a>
+    <button class="delete" data-id="{{id}}">Delete</button>
+</div>
 {{/each}}
+
+<script>
+    $(".delete").on("click", function () {
+        const idToDelete = $(this).data("id");
+
+        $.ajax({
+            url: `/api/thing/${idToDelete}`,
+            method: "DELETE"
+        }).then(function () {
+            location.reload();
+        })
+    })
+</script>

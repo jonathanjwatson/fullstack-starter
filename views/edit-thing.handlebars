@@ -1,1 +1,29 @@
 <h1>A form to edit, prepopulated will go here.</h1>
+
+<form id="edit-thing">
+    <input type="text" value="{{name}}" id="name-input">
+    <input type="text" value="{{price}}" id="price-input">
+    <input type="hidden" value="{{id}}" id="id-input">
+    <button>Submit Changes</button>
+</form>
+
+<script>
+    $("#edit-thing").on("submit", function (event) {
+        event.preventDefault();
+        const name = $("#name-input").val();
+        const price = $("#price-input").val();
+        const id = $("#id-input").val();
+        console.log(id);
+
+        $.ajax({
+            url: `/api/thing/${id}`,
+            method: "PUT",
+            data: {
+                name: name,
+                price: price,
+            }
+        }).then(function () {
+            window.location.replace(`/thing/${id}`);
+        })
+    })
+</script>
